@@ -1,0 +1,12 @@
+[user]
+	email = marashi.nima@outlook.de
+	name = gitNimad
+[alias]
+	co = checkout
+	c = commit
+	st = status
+	br = branch
+	hi = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=format:'%Y-%m-%d %H:%M:%S'"
+	hia = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=format:'%Y-%m-%d %H:%M:%S' --all"
+	type = "cat-file -t"
+	dump = "cat-file -p"
