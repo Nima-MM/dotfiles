@@ -1,5 +1,4 @@
 # dotfiles
-
 My personal configuration files for nvim, tmux, ghostty, etc .Managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Structure
@@ -8,7 +7,9 @@ My personal configuration files for nvim, tmux, ghostty, etc .Managed with [GNU 
 dotfiles/
 ├── nvim/.config/nvim/
 ├── tmux/.tmux.conf
-└── ghostty/.config/ghostty/config
+├── ghostty/.config/ghostty/config
+├── bash/.bashrc
+└── git/.gitconfig
 ```
 
 ## Requirements
@@ -19,8 +20,8 @@ sudo apt install stow
 ## Installation
 
 ```bash
-git clone https://github.com/nima-mm/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
+git clone https://github.com/nima-mm/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 stow neovim
 stow tmux
 stow ghostty
@@ -39,8 +40,8 @@ This creates symlinks from the expected config locations to the files in this re
 
 ```bash
 # pull latest changes
-cd ~/.dotfiles && git pull
+cd ~/dotfiles && git pull
 
 # push changes after editing configs
-cd ~/.dotfiles && git add . && git commit -m "update" && git push
+cd ~/dotfiles && git add . && git commit -m "chore(): " && git push
 ```
