@@ -157,97 +157,97 @@ export PATH="$HOME/.local/bin:$PATH"
 # alias to open the pwd dir e.g. in nautilus
 alias o='xdg-open'
 
-# Gemini Smart Autocomplete v3 (Visual Preview)
+############# Gemini Smart Autocomplete v3 (Visual Preview) #################
 # Trigger:
 #   Strg+Space (1x) -> Vorschau anzeigen (unter der Zeile)
 #   Strg+Space (2x) -> Vorschau annehmen (ganze Zeile)
 #   Strg+PfeilRechts -> Nächstes Wort annehmen
 
 # Hilfsfunktion: Match finden
-_gemini_get_match() {
-    local input="$1"
-    [[ -z "$input" ]] && return
+#_gemini_get_match() {
+#    local input="$1"
+#    [[ -z "$input" ]] && return
     # Suche in History (letzte 500), ignoriere führende Leerzeichen
-    fc -lnr -500 | awk -v prefix="$input" '{
-        gsub(/^[ \t]+/, "", $0);
-        if (index($0, prefix) == 1) { print $0; exit }
-    }'
-}
+#    fc -lnr -500 | awk -v prefix="$input" '{
+#        gsub(/^[ \t]+/, "", $0);
+#        if (index($0, prefix) == 1) { print $0; exit }
+#    }'
+#}
 
 # Variable zum Speichern des letzten Vorschlags für die "2x Drücken"-Logik
-_GEMINI_LAST_SUGGESTION=""
+#_GEMINI_LAST_SUGGESTION=""
 
-_gemini_preview_or_accept() {
-    local current_text="${READLINE_LINE:0:$READLINE_POINT}"
-    [[ -z "$current_text" ]] && return
+#_gemini_preview_or_accept() {
+#    local current_text="${READLINE_LINE:0:$READLINE_POINT}"
+#    [[ -z "$current_text" ]] && return
 
-    # 1. Match suchen
-    local match=$(_gemini_get_match "$current_text")
-    [[ -z "$match" ]] && return
+#    # 1. Match suchen
+#    local match=$(_gemini_get_match "$current_text")
+#    [[ -z "$match" ]] && return
 
     # 2. Check: Haben wir diesen Vorschlag gerade schon angezeigt?
-    if [[ "$match" == "$_GEMINI_LAST_SUGGESTION" ]]; then
+#    if [[ "$match" == "$_GEMINI_LAST_SUGGESTION" ]]; then
         # Ja -> Annehmen (Vervollständigen)
-        READLINE_LINE="$match"
-        READLINE_POINT=${#READLINE_LINE}
-        _GEMINI_LAST_SUGGESTION="" # Reset
+#        READLINE_LINE="$match"
+#        READLINE_POINT=${#READLINE_LINE}
+#        _GEMINI_LAST_SUGGESTION="" # Reset
 
         # Zeile sauber neu zeichnen (löscht die Vorschau-Zeile unten)
-        echo -ne "\r\033[K" # Zeile löschen (Vorsichtshalber)
+#        echo -ne "\r\033[K" # Zeile löschen (Vorsichtshalber)
         # Bash wird die Zeile automatisch neu zeichnen
-    else
+#    else
         # Nein -> Nur Anzeigen (Preview)
-        _GEMINI_LAST_SUGGESTION="$match"
+#        _GEMINI_LAST_SUGGESTION="$match"
 
         # Cursor speichern, Zeile runter, Grau drucken, Cursor zurück
         # \e[90m = Grau, \e[0m = Reset
         # \e7 = Save Cursor (xterm), \e8 = Restore Cursor
         # \n = Neue Zeile
 
-        local preview_text="  (Vorschlag: ${match})"
+#        local preview_text="  (Vorschlag: ${match})"
 
         # Trick: Wir nutzen echo um unter die Zeile zu schreiben, ohne den Prompt zu zerstören
-        echo -ne "\n\e[90m${preview_text}\e[0m"
+#        echo -ne "\n\e[90m${preview_text}\e[0m"
 
         # Wir müssen den Prompt "neu zeichnen" erzwingen, sonst bleibt der Cursor unten
         # Aber READLINE macht das meistens selbst, wenn wir zurückkehren.
         # Wir nutzen tput, um den Cursor wieder hochzuholen
-        tput cuu1 # Cursor 1 hoch
-        tput cuf $READLINE_POINT # Cursor nach rechts an alte Stelle
-    fi
-}
+#        tput cuu1 # Cursor 1 hoch
+#        tput cuf $READLINE_POINT # Cursor nach rechts an alte Stelle
+#    fi
+#}
 
-_gemini_accept_word() {
-    local current_text="${READLINE_LINE:0:$READLINE_POINT}"
-    local match=$(_gemini_get_match "$current_text")
-    [[ -z "$match" ]] && return
+#_gemini_accept_word() {
+#    local current_text="${READLINE_LINE:0:$READLINE_POINT}"
+#    local match=$(_gemini_get_match "$current_text")
+#    [[ -z "$match" ]] && return
 
-    local remainder="${match:${#current_text}}"
-    [[ -z "$remainder" ]] && return
+#    local remainder="${match:${#current_text}}"
+#    [[ -z "$remainder" ]] && return
 
-    local next_chunk=""
-    if [[ "$remainder" =~ ^[^[:space:]]+ ]]; then
-        next_chunk="${BASH_REMATCH[0]}"
-    elif [[ "$remainder" =~ ^[[:space:]]+[^[:space:]]+ ]]; then
-        next_chunk="${BASH_REMATCH[0]}"
-    else
-        next_chunk="$remainder"
-    fi
+#    local next_chunk=""
+#    if [[ "$remainder" =~ ^[^[:space:]]+ ]]; then
+#        next_chunk="${BASH_REMATCH[0]}"
+#    elif [[ "$remainder" =~ ^[[:space:]]+[^[:space:]]+ ]]; then
+#        next_chunk="${BASH_REMATCH[0]}"
+#    else
+#        next_chunk="$remainder"
+#    fi
 
-    READLINE_LINE="${current_text}${next_chunk}"
-    READLINE_POINT=${#READLINE_LINE}
+#    READLINE_LINE="${current_text}${next_chunk}"
+#    READLINE_POINT=${#READLINE_LINE}
 
     # Reset Preview State, da wir den Text geändert haben
-    _GEMINI_LAST_SUGGESTION=""
-}
+#    _GEMINI_LAST_SUGGESTION=""
+#}
 
 # Bindings
-bind -x '"\C-@": _gemini_preview_or_accept'
-bind -x '"\e[1;5C": _gemini_accept_word'
-bind -x '"\e[5C": _gemini_accept_word'
+#bind -x '"\C-@": _gemini_preview_or_accept'
+#bind -x '"\e[1;5C": _gemini_accept_word'
+#bind -x '"\e[5C": _gemini_accept_word'
 
 
-# gemini autovervollständigungssript ende
+#################### gemini autovervollständigungssript ende ####################
 
 # gemini-cli aliases
 alias gem='npx @google/gemini-cli'
